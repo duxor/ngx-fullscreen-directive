@@ -1,24 +1,28 @@
-# NgxFullscreenDirective
+# Angular full screen directive
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+Displays a container in the full screen mode.
 
-## Code scaffolding
+## Usage
 
-Run `ng generate component component-name --project ngx-fullscreen-directive` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-fullscreen-directive`.
-> Note: Don't forget to add `--project ngx-fullscreen-directive` or else it will be added to the default project in your `angular.json` file. 
+- Add the directive to the container to be maximized and call `openFullScreen()` on the
+  element which will trigger the full screen displaying.
 
-## Build
+- Optional: Define custom styles to the container while it is displayed in full screen by sending
+  an object of type `CSSStyleDeclaration` to the `fullScreenCtrStyle` input property of
+  the directive. These styles will be rolled-back after the full screen mode is exited.
 
-Run `ng build ngx-fullscreen-directive` to build the project. The build artifacts will be stored in the `dist/` directory.
+```html
+<!-- container to be displayed in the full screen mode -->
+<element
+  fullScreen
+  #fullScreen="fullScreen"
+  [fullScreenCtrStyle]="customStyles"
+>
+  ...
+</element>
 
-## Publishing
+...
 
-After building your library with `ng build ngx-fullscreen-directive`, go to the dist folder `cd dist/ngx-fullscreen-directive` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-fullscreen-directive` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<!-- element which triggers the full screen mode -->
+<element (click)="fullScreen.openFullScreen()"></element>
+```
