@@ -58,9 +58,9 @@ export class FullScreenDirective implements OnDestroy {
   }
 
   private _asignNativeElStyle(style: Partial<CSSStyleDeclaration>) {
-    Object.keys(this._fullScreenCtrStyle).forEach((key) => {
+    for (const key in this._fullScreenCtrStyle) {
       this._nativeEl.style[key] = style[key];
-    });
+    }
   }
 
   ngOnDestroy(): void {
