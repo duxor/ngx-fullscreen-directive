@@ -2,10 +2,12 @@ import { DOCUMENT } from "@angular/common";
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   Inject,
   Input,
   NgModule,
   OnDestroy,
+  Output,
 } from "@angular/core";
 
 @Directive({
@@ -15,11 +17,17 @@ import {
 export class FullScreenDirective implements OnDestroy {
   /** Styles applied to the container which has the `fullScreen` directive.
    *
-   *  These styles are applied only in the full screen mode and are roll-backed when exiting it.
+   *  These styles are applied when entering in the full screen mode and are roll-backed when exiting it.
    */
   @Input() set fullScreenCtrStyle(style: CSSStyleDeclaration) {
     this._fullScreenCtrStyle = style;
   }
+
+  /**
+   *  * Emits `true` when entering in the full screen mode.
+   *  * Emits `false` when leaving full screen mode.
+   */
+  @Output() fullScreenToggle = new EventEmitter<boolean>();
 
   private _nativeEl;
   private _fullScreenCtrStyle: Partial<CSSStyleDeclaration>;
@@ -27,7 +35,10 @@ export class FullScreenDirective implements OnDestroy {
   private _listener = [
     "fullscreenchange",
     () => {
-      if (!this._document.fullscreenElement) {
+      if (this._document.fullscreenElement) {
+        this.fullScreenToggle.emit(true);
+      } else {
+        this.fullScreenToggle.emit(false);
         this._resetFullScreenStyle();
       }
     },
@@ -40,13 +51,6 @@ export class FullScreenDirective implements OnDestroy {
     this._nativeEl = this._el.nativeElement;
     this._nativeEl.addEventListener(...this._listener);
   }
-
-  openFullScreen = () => {
-    if (this._nativeEl.requestFullscreen) {
-      this._nativeEl.requestFullscreen();
-      this._addFullScreenStyle();
-    }
-  };
 
   private _addFullScreenStyle() {
     this._prevStyle = { ...this._nativeEl.style };
@@ -62,6 +66,13 @@ export class FullScreenDirective implements OnDestroy {
       this._nativeEl.style[key] = style[key];
     }
   }
+
+  openFullScreen = () => {
+    if (this._nativeEl.requestFullscreen) {
+      this._nativeEl.requestFullscreen();
+      this._addFullScreenStyle();
+    }
+  };
 
   ngOnDestroy(): void {
     this._nativeEl.removeEventListener(...this._listener);
