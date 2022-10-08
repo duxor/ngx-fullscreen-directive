@@ -31,3 +31,9 @@ Displays a container in the full screen mode.
 <!-- element which triggers the full screen mode -->
 <element (click)="fullScreen.openFullScreen()"></element>
 ```
+
+You can specify the element on clicking on which the full screen mode will be toggled off by decorating it with `closeFullScreen` directive:
+
+```html
+<element closeFullScreen></element>
+```
