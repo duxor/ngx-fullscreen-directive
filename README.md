@@ -4,6 +4,8 @@ Displays a container in full screen mode
 
 ## Usage
 
+- `npm i ngx-fullscreen-directive`
+
 - Import `FullScreenDirectiveModule`.
 
 - Add the directive to the container to be maximized and call `openFullScreen()` on the
