@@ -30,8 +30,8 @@ export class FullScreenDirective implements OnDestroy {
   @Output() fullScreenToggle = new EventEmitter<boolean>();
 
   private _nativeEl;
-  private _fullScreenCtrStyle: Partial<CSSStyleDeclaration>;
-  private _prevStyle: Partial<CSSStyleDeclaration>;
+  private _fullScreenCtrStyle!: Partial<CSSStyleDeclaration>;
+  private _prevStyle!: Partial<CSSStyleDeclaration>;
   private _listener = [
     "fullscreenchange",
     () => {
