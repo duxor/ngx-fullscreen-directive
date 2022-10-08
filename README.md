@@ -1,6 +1,6 @@
 # Angular full screen directive
 
-Displays a container in the full screen mode.
+Displays a container in full screen mode
 
 ## Usage
 
