@@ -74,25 +74,17 @@ export class FullScreenDirective implements OnDestroy {
     }
   };
 
+  closeFullScreen = () => {
+    if (this._document.fullscreenElement) this._document.exitFullscreen();
+  };
+
   ngOnDestroy(): void {
     this._nativeEl.removeEventListener(...this._listener);
   }
 }
 
-@Directive({
-  selector: "[closeFullScreen]",
-  host: { "(click)": "_closeFullScreen()" },
-})
-export class CloseFullScreenDirective {
-  constructor(@Inject(DOCUMENT) private _document: Document) {}
-
-  private _closeFullScreen() {
-    if (this._document.fullscreenElement) this._document.exitFullscreen();
-  }
-}
-
 @NgModule({
-  declarations: [FullScreenDirective, CloseFullScreenDirective],
-  exports: [FullScreenDirective, CloseFullScreenDirective],
+  declarations: [FullScreenDirective],
+  exports: [FullScreenDirective],
 })
 export class FullScreenDirectiveModule {}

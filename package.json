@@ -1,12 +1,18 @@
 {
   "name": "ngx-fullscreen-directive",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
   "description": "Displays a container in full screen mode",
   "main": "src/public-api.ts",

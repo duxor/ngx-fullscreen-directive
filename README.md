@@ -2,11 +2,11 @@
 
 Displays a container in full screen mode
 
-## Usage
+## Usage:
 
 - `npm i ngx-fullscreen-directive`
 
-- Import `FullScreenDirectiveModule`.
+- Import `FullScreenDirectiveModule` in a `@NgModule`
 
 - Add the directive to the container to be maximized and call `openFullScreen()` on the
   element which will trigger the full screen displaying.
@@ -16,6 +16,8 @@ Displays a container in full screen mode
   the directive. These styles will be rolled-back after the full screen mode is exited.
 
 - Optional: You can provide an event handler for `fullScreenToggle` event which emits `true` when entering in the full screen mode and `false` when exiting it.
+
+- Optional: You can specify which element can trigger the exiting from the full screen mode by calling `closeFullScreen()` method.
 
 ```html
 <!-- container to be displayed in the full screen mode -->
@@ -32,10 +34,7 @@ Displays a container in full screen mode
 
 <!-- element which triggers the full screen mode -->
 <element (click)="fullScreen.openFullScreen()"></element>
-```
 
-You can specify the element on clicking on which the full screen mode will be toggled off by decorating it with `closeFullScreen` directive:
-
-```html
-<element closeFullScreen></element>
+<!-- OPTIONAL: element which will trigger exiting from the full screen mode -->
+<element (click)="fullScreen.closeFullScreen()"></element>
 ```
