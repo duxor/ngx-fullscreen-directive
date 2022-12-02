@@ -1,12 +1,12 @@
 # Angular full screen directive
 
-Displays a container in full screen mode
+Displays a container in full screen mode. Requires Angular version >= 15.0.0.
 
 ## Usage:
 
 - `npm i ngx-fullscreen-directive`
 
-- Import `FullScreenDirectiveModule` in a `@NgModule`
+- Import `FullScreenDirective` in a `@NgModule`
 
 - Add the directive to the container to be maximized and call `openFullScreen()` on the
   element which will trigger the full screen displaying.

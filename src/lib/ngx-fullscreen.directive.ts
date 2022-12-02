@@ -5,12 +5,12 @@ import {
   EventEmitter,
   Inject,
   Input,
-  NgModule,
   OnDestroy,
   Output,
 } from "@angular/core";
 
 @Directive({
+  standalone: true,
   selector: "[fullScreen]",
   exportAs: "fullScreen",
 })
@@ -82,9 +82,3 @@ export class FullScreenDirective implements OnDestroy {
     this._nativeEl.removeEventListener(...this._listener);
   }
 }
-
-@NgModule({
-  declarations: [FullScreenDirective],
-  exports: [FullScreenDirective],
-})
-export class FullScreenDirectiveModule {}
