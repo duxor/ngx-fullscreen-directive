@@ -5,16 +5,21 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnDestroy,
+  OnInit,
   Output,
 } from "@angular/core";
+
+export type FullScreenInstance = {
+  openFullScreen: () => void;
+  closeFullScreen: () => void;
+};
 
 @Directive({
   standalone: true,
   selector: "[fullScreen]",
   exportAs: "fullScreen",
 })
-export class FullScreenDirective implements OnDestroy {
+export class FullScreenDirective implements OnInit {
   /** Styles applied to the container which has the `fullScreen` directive.
    *
    *  These styles are applied when entering in the full screen mode and are roll-backed when exiting it.
@@ -27,29 +32,28 @@ export class FullScreenDirective implements OnDestroy {
    *  * Emits `true` when entering in the full screen mode.
    *  * Emits `false` when leaving full screen mode.
    */
-  @Output() fullScreenToggle = new EventEmitter<boolean>();
+  @Output() fullScreenEnabled = new EventEmitter<boolean>();
+
+  /**Allows calling `openFullScreen()` and `closeFullScreen()` from the component .ts file*/
+  @Output() fullScreenInit = new EventEmitter<FullScreenInstance>();
 
   private _nativeEl;
   private _fullScreenCtrStyle!: Partial<CSSStyleDeclaration>;
   private _prevStyle!: Partial<CSSStyleDeclaration>;
-  private _listener = [
-    "fullscreenchange",
-    () => {
-      if (this._document.fullscreenElement) {
-        this.fullScreenToggle.emit(true);
-      } else {
-        this.fullScreenToggle.emit(false);
-        this._resetFullScreenStyle();
-      }
-    },
-  ];
 
   constructor(
     private _el: ElementRef,
-    @Inject(DOCUMENT) private _document: Document
+    @Inject(DOCUMENT) private _document: any
   ) {
     this._nativeEl = this._el.nativeElement;
-    this._nativeEl.addEventListener(...this._listener);
+  }
+
+  ngOnInit(): void {
+    const { openFullScreen, closeFullScreen } = this;
+    this.fullScreenInit.emit({
+      openFullScreen,
+      closeFullScreen,
+    });
   }
 
   private _addFullScreenStyle() {
@@ -68,17 +72,36 @@ export class FullScreenDirective implements OnDestroy {
   }
 
   openFullScreen = () => {
-    if (this._nativeEl.requestFullscreen && !this._document.fullscreenElement) {
+    if (
+      this._document.fullscreenElement ||
+      this._document.webkitFullscreenElement
+    )
+      return;
+
+    if (this._nativeEl.requestFullscreen) {
       this._nativeEl.requestFullscreen();
-      this._addFullScreenStyle();
+    } else if (this._nativeEl.webkitRequestFullscreen) {
+      this._nativeEl.webkitRequestFullscreen();
     }
+
+    this.fullScreenEnabled.emit(true);
+    this._addFullScreenStyle();
   };
 
   closeFullScreen = () => {
-    if (this._document.fullscreenElement) this._document.exitFullscreen();
-  };
+    if (
+      !this._document.fullscreenElement &&
+      !this._document.webkitFullscreenElement
+    )
+      return;
 
-  ngOnDestroy(): void {
-    this._nativeEl.removeEventListener(...this._listener);
-  }
+    if (this._document.exitFullscreen) {
+      this._document.exitFullscreen();
+    } else if (this._document.webkitExitFullscreen) {
+      this._document.webkitExitFullscreen();
+    }
+
+    this.fullScreenEnabled.emit(false);
+    this._resetFullScreenStyle();
+  };
 }
