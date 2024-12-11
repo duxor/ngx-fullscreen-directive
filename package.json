@@ -1,9 +1,9 @@
 {
-  "name": "ngx-fullscreen-directive",
-  "version": "1.6.1",
+  "name": "@duxor/ngx-fullscreen-directive",
+  "version": "18.0.0",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0"
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -19,7 +19,7 @@
   "main": "src/public-api.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChepteaCatalin/ngx-fullscreen-directive"
+    "url": "https://github.com/duxor/ngx-fullscreen-directive"
   },
   "keywords": [
     "angular",
